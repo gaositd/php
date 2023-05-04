@@ -5,7 +5,7 @@
         <h1 class="display-3">Hola</h1>
         <p class="lead">Este mi portafolio hecho con PHP y BootStrap 5</p>
         <hr class="my-2" />
-        <p class="lead">Más información</p>
+        <p class="lead">Más información 5:37:26</p>
       </div>
     </div>
   </div>
