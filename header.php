@@ -1,4 +1,13 @@
-  <!DOCTYPE html>
+<?php
+  session_start();
+  if (isset($_SESSION['userApp']) != "12345"){
+    header("Location:loginApp.php");
+  }else{
+    //print_r(isset($_SESSION));
+  }
+
+?>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -23,4 +32,4 @@
     <a href="portfolio.php">Portafolio</a>
     <a href="closeSession.php">Cerrar</a>
   
-  Aquí inicia el proyecto en PHP
+  <!-- Aquí inicia el proyecto en PHP -->
