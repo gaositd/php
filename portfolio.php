@@ -87,11 +87,15 @@
     $web_path = $_POST['web_path'];
     $filename = $_FILES['archivo']['name'];
 
-    print_r($nombre."\n".$web_path."\n".$filename);
-    $cxnPortfolio = new cxn();
-    $ruta   = $_POST['ruta'];
-    $qry = "INSERT INTO `fotos` (`id`, `nombre`, `ruta`, `file-path`) VALUES (NULL, '".$nombre."', '".$web_path."','".$filename."');";
-    echo $qry;
-    // $cxnPortfolio.loadSQL($qry);
+    if(isset($nombre) || isset($web_path) || isset($filename)){
+      $cxnPortfolio = new cxn();
+      $ruta   = $_POST['ruta'];
+      $qry = "INSERT INTO `fotos` (`id`, `nombre`, `ruta`, `file-path`) VALUES (NULL, '".$nombre."', '".$web_path."','".$filename."');";
+      echo $qry;
+      // $cxnPortfolio.loadSQL($qry);
+    }
+    else{
+      echo "<div class=\"bs-danger-border-subtle>Hay campos vacios favor de revisar</div>";
+    }
   }
 ?>
