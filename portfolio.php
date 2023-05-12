@@ -80,22 +80,31 @@
 </div>
 <?php include 'footer.php'; ?>
 <?php
+  function fError($flag){
+    echo "==>>".$flag;
+    if($flag == true){
+      die('<div class="" role="alert"></div>');
+    }else if($flag == false){
+      print_r('<div class="alert alert-danger" role="alert">
+      Faltan campos por llenar o informacion incorrecta
+    </div>');
+    }
+  }
+
   if($_POST){
-    // print_r($_POST);
-    // print_r($_FILES);
     $nombre = $_POST['nombre'];
     $web_path = $_POST['web_path'];
     $filename = $_FILES['archivo']['name'];
 
-    if(isset($nombre) || isset($web_path) || isset($filename)){
-      $cxnPortfolio = new cxn();
-      $ruta   = $_POST['ruta'];
-      $qry = "INSERT INTO `fotos` (`id`, `nombre`, `ruta`, `file-path`) VALUES (NULL, '".$nombre."', '".$web_path."','".$filename."');";
+    if(strlen($nombre) <= 5){
+      fError(false);
+    }else{
+      $qry = "INSERT INTO `fotos` (`id`, `nombre`, `ruta`, `file-path`) VALUES (NULL, '$nombre', '$web_path','$filename');";
       echo $qry;
-      // $cxnPortfolio.loadSQL($qry);
     }
-    else{
-      echo "<div class=\"bs-danger-border-subtle>Hay campos vacios favor de revisar</div>";
-    }
+
+    // $cxnPortfolio = new cxn();
+    // $qry = "INSERT INTO `fotos` (`id`, `nombre`, `ruta`, `file-path`) VALUES (NULL, '$nombre', '$web_path','$filename');";
+    // echo $qry;
   }
 ?>
