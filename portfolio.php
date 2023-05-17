@@ -108,7 +108,7 @@
                       />
                     </td>
                     <td class='ms-1'>
-                      $desc
+                    $foto[descripcion]
                     </td>
                     <td class='ms-1'>
                       <a href='?mod=$foto[id]' class='ms-3'>
@@ -158,13 +158,28 @@
     $nombre = $_POST['nombre'];
     $web_path = $_POST['web_path'];
     $filename = $_FILES['archivo']['name'];
-    $desc = $_GET['descripcion'];
+    $desc = $_POST['descripcion'];
+    echo $desc;
 
-
-    if(strlen($nombre) <= 5){
+    if(strlen($nombre) <= 3){
       fError(false);
     }else{
-      $qry = "INSERT INTO `fotos` (`id`, `nombre`, `ruta`, `file-path`, `descripcion`,`marca_borrado`) VALUES (NULL, '".$nombre."','".$web_path."','".$filename."', '".$desc."', '');";
+      $qry = "INSERT INTO `fotos` (
+        `id`, 
+        `nombre`, 
+        `ruta`, 
+        `file-path`, 
+        `descripcion`,
+        `marca_borrado`
+      ) 
+      VALUES (
+        NULL, 
+        '".$nombre."',
+        '".$web_path."',
+        '".$filename."',
+        '".$desc."',
+        ''
+      );";
       echo $qry;
       $cxnPortfolio = new cxn();
       $cxnPortfolio->actionsSQL($qry);
