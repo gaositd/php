@@ -9,11 +9,16 @@
         </div>
         <div class="card-body">
           <form
-            action="portfolio.php" method="post" id="portfolio" name="portfolio" enctype="multipart/form-data" >
+            action=""
+            method="post"
+            id="portfolio" 
+            name="portfolio" 
+            enctype="multipart/form-data"
+          >
             <label for="nombre" id="labelNombre" class="form-label" >
               Nombre
             </label>
-            <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Nombre del proyecto" aria-placeholder="Nombre del proyecto" />
+            <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Nombre de la imágen" aria-placeholder="Nombre de la imágen" />
             <label
               for="web_path"
               id="label-file"
@@ -28,21 +33,32 @@
             id="web_path"
             class="form-control"
             />
-            <label
-              for="filename"
-              id="filename-label"
-              name="filename"
-              class="form-label mt-2"
-            >
-              Imagen del proyecto 
+            <label for="descriptcion" class="control-label">
+              Descripción
             </label>
-            <input
-              type="file"
-              name="archivo"
-              id="archivo"
-              class="form-control"
-              accept="image/png,image/jpeg, png, jpeg, webp, gif"
-            />
+            <textarea
+            name="descripcion"
+            id="descripcion"
+            class="form-control"
+            cols="30"
+            rows="10"
+            >
+          </textarea>
+          <label
+            for="filename"
+            id="filename-label"
+            name="filename"
+            class="form-label mt-2"
+          >
+            Imágen a cargar
+          </label>
+          <input
+            type="file"
+            name="archivo"
+            id="archivo"
+            class="form-control"
+            accept="image/png,image/jpeg, png, jpeg, webp, gif"
+          />
             <input type="submit" value="Enviar Proyecto" id="enviar-proyecto" class="btn btn-success mt-3">
           </form>
         </div>
@@ -56,6 +72,7 @@
               <th scope="col">Nombre</th>
               <th scope="col">WEB</th>
               <th scope="col">Foto</th>
+              <th scope="col">Descripción</th>
               <th scope="col">Acciones</th>
             </tr>
           </thead>
@@ -91,6 +108,9 @@
                       />
                     </td>
                     <td class='ms-1'>
+                      $desc
+                    </td>
+                    <td class='ms-1'>
                       <a href='?mod=$foto[id]' class='ms-3'>
                         <i
                           class='fa-solid fa-eraser'
@@ -110,7 +130,6 @@
                   </tr>
                 ");
               }
-              $selectCxn->closeCxn();
             ?>
           </tbody>
         </table>
@@ -124,54 +143,46 @@
 <?php
 
   function fError($flag){
-    echo "==>>".$flag;
+
     if($flag == true){
       die('<div class="" role="alert"></div>');
     }else if($flag == false){
       print_r('<div class="alert alert-danger" role="alert">
       Faltan campos por llenar o informacion incorrecta
-    </div>');
+      </div>');
     }
-  }
 
+  }
 
   if($_POST){
     $nombre = $_POST['nombre'];
     $web_path = $_POST['web_path'];
     $filename = $_FILES['archivo']['name'];
+    $desc = $_GET['descripcion'];
+
 
     if(strlen($nombre) <= 5){
       fError(false);
     }else{
-      $qry = "INSERT INTO `fotos` (`id`, `nombre`, `ruta`, `file-path`) VALUES (NULL, '".$nombre."','".$web_path."','".$filename."');";
+      $qry = "INSERT INTO `fotos` (`id`, `nombre`, `ruta`, `file-path`, `descripcion`,`marca_borrado`) VALUES (NULL, '".$nombre."','".$web_path."','".$filename."', '".$desc."', '');";
+      echo $qry;
       $cxnPortfolio = new cxn();
       $cxnPortfolio->actionsSQL($qry);
       $cxnPortfolio->closeCxn();
     }
-  
   }
 
   if($_GET){
-    // $deleteId = $_GET['del'];
-    // echo '<div class="alert alert-danger" role="alert">$deleteId</div>';
-    // $updateId = $_GET['mod'];
-    // $cxnActions = new cxn();
-    // echo '<script>alert($deleteId)</script>';
-    // if($deleteId > 0){
-      $qry="Delete From `fotos` WHERE `fotos`.`id` = ".$_GET['del'].";";
-      // $deleteId";
-      // echo '<div class="alert alert-danger" role="alert">$qry</div>';
-      $cxnActions->actionsSQL($qry);
-      $cxnActions->closeCxn();
-    // }else{//6:50:43
-    //   echo '<div class="alert alert-danger" role="alert">No entró</div>';
-    // }
+    $cxnActions = new cxn();
 
-    // if($updateId){
-    //   // update($updateId);
-    // }
-    
-  }else{
-    echo '<script>alert("no entró")</script>';
+    if($_GET['del'] > 0){
+      $deleteId = $_GET['del'];
+      $qry ="Delete From `fotos` WHERE `fotos`.`id` = ".$deleteId.";";
+      $cxnActions->actionsSQL($qry);
+    }else if($_GET['mod'] > 0){
+      $updateId = $_GET['mod'];
+      echo '<div class="alert alert-danger" role="alert">deleteId = '.$deleteId.'   updateId = '.$updateId.'</div>';
+    }
+
   }
 ?>
