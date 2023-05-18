@@ -57,7 +57,7 @@
             name="archivo"
             id="archivo"
             class="form-control"
-            accept="image/png,image/jpeg, png, jpeg, webp, gif"
+            accept="image/png,image/jpeg, png, jpeg, webp, gif, svg"
           />
             <input type="submit" value="Enviar Proyecto" id="enviar-proyecto" class="btn btn-success mt-3">
           </form>
@@ -155,11 +155,14 @@
   }
 
   if($_POST){
+    $fecha = new DateTime();
+    //nuevo nombre de archivo a subir
     $nombre = $_POST['nombre'];
     $web_path = $_POST['web_path'];
-    $filename = $_FILES['archivo']['name'];
+    $filename = 'images/'.$fecha->getTimestamp()."_".$_FILES['archivo']['name'];
+    $tmp_name = $_FILES['archivo']['tmp_name'];
+    $image_path = $tmp_name;
     $desc = $_POST['descripcion'];
-    echo $desc;
 
     if(strlen($nombre) <= 3){
       fError(false);
@@ -180,10 +183,10 @@
         '".$desc."',
         ''
       );";
-      echo $qry;
       $cxnPortfolio = new cxn();
       $cxnPortfolio->actionsSQL($qry);
-      $cxnPortfolio->closeCxn();
+      move_uploaded_file($image_path,$filename);
+      // $cxnPortfolio->closeCxn();
     }
   }
 
@@ -192,8 +195,10 @@
 
     if($_GET['del'] > 0){
       $deleteId = $_GET['del'];
+      $deleteImageFromServer = "Select file-path from fotos where id='$deleteId'";
       $qry ="Delete From `fotos` WHERE `fotos`.`id` = ".$deleteId.";";
       $cxnActions->actionsSQL($qry);
+      unlink('images/'.$deleteImage);
     }else if($_GET['mod'] > 0){
       $updateId = $_GET['mod'];
       echo '<div class="alert alert-danger" role="alert">deleteId = '.$deleteId.'   updateId = '.$updateId.'</div>';
