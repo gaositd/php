@@ -18,7 +18,14 @@
             <label for="nombre" id="labelNombre" class="form-label" >
               Nombre
             </label>
-            <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Nombre de la imágen" aria-placeholder="Nombre de la imágen" />
+            <input 
+              type="text" 
+              name="nombre" 
+              id="nombre" 
+              class="form-control" 
+              placeholder="Nombre de la imágen" 
+              aria-placeholder="Nombre de la imágen" 
+            />
             <label
               for="web_path"
               id="label-file"
@@ -28,22 +35,20 @@
               Ruta Web
             </label>
             <input
-            type="text"
-            name="web_path"
-            id="web_path"
-            class="form-control"
+              type="text"
+              name="web_path"
+              id="web_path"
+              class="form-control"
             />
             <label for="descriptcion" class="control-label">
               Descripción
             </label>
             <textarea
-            name="descripcion"
-            id="descripcion"
-            class="form-control"
-            cols="30"
-            rows="10"
-            >
-          </textarea>
+              name="descripcion"
+              id="descripcion"
+              class="form-control"
+              rows="10"
+            ></textarea>
           <label
             for="filename"
             id="filename-label"
@@ -59,7 +64,12 @@
             class="form-control"
             accept="image/png,image/jpeg, png, jpeg, webp, gif, svg"
           />
-            <input type="submit" value="Enviar Proyecto" id="enviar-proyecto" class="btn btn-success mt-3">
+            <input
+              type="submit"
+              value="Enviar Proyecto" 
+              id="enviar-proyecto" 
+              class="btn btn-success mt-3"
+            >
           </form>
         </div>
       </div>
@@ -84,6 +94,7 @@
               $fotos = $selectCxn->selectSQL($qry);
               foreach($fotos as $foto){
                 $ruta_web = substr($foto['ruta'],8,17);
+                $img = empty($foto['file_path'])? $foto['ruta']:$foto['file_path'];
                 print_r("
                   <tr class=''>
                     <td class='align-self-center ms-1'>$foto[nombre]</td>
@@ -99,7 +110,7 @@
                     </td>
                     <td class='ms-1'>
                       <img
-                        src='$foto[ruta]'
+                        src='$foto[file_path]'
                         alt='$foto[nombre]'
                         class='img-fluid img-thumbnail'
                         title='$foto[nombre]'
@@ -139,11 +150,10 @@
 
   
 </div>
-<?php include 'footer.php'; ?>
 <?php
 
   function fError($flag){
-
+    
     if($flag == true){
       die('<div class="" role="alert"></div>');
     }else if($flag == false){
@@ -163,7 +173,7 @@
     $tmp_name = $_FILES['archivo']['tmp_name'];
     $image_path = $tmp_name;
     $desc = $_POST['descripcion'];
-
+    
     if(strlen($nombre) <= 3){
       fError(false);
     }else{
@@ -171,7 +181,7 @@
         `id`, 
         `nombre`, 
         `ruta`, 
-        `file-path`, 
+        `file_path`, 
         `descripcion`,
         `marca_borrado`
       ) 
@@ -186,7 +196,6 @@
       $cxnPortfolio = new cxn();
       $cxnPortfolio->actionsSQL($qry);
       move_uploaded_file($image_path,$filename);
-      // $cxnPortfolio->closeCxn();
     }
   }
 
@@ -205,4 +214,5 @@
     }
 
   }
-?>
+  ?>
+  <?php include 'footer.php'; ?>
