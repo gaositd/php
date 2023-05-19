@@ -202,7 +202,8 @@
       $cxnPortfolio->actionsSQL($qry);
       move_uploaded_file($image_path,$filename);
     }
-    header('location:portfolio.php');
+    header("Location: ".$_SERVER['PHP_SELF']);
+    exit();
   }
 
   if($_GET){
@@ -222,7 +223,8 @@
       $updateId = $_GET['mod'];
       print_r('<div class="alert alert-danger" role="alert">deleteId = '.$deleteId.'   updateId = '.$updateId.'</div>');
     }
-    header('location:portfolio.php');
+    header("Location: ".$_SERVER['PHP_SELF']);
+    exit();
   }
   ?>
   <?php include 'footer.php'; ?>
