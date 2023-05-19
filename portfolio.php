@@ -24,7 +24,8 @@
               id="nombre" 
               class="form-control" 
               placeholder="Nombre de la imágen" 
-              aria-placeholder="Nombre de la imágen" 
+              aria-placeholder="Nombre de la imágen"
+              required
             />
             <label
               for="web_path"
@@ -39,6 +40,7 @@
               name="web_path"
               id="web_path"
               class="form-control"
+              required
             />
             <label for="descriptcion" class="control-label">
               Descripción
@@ -48,6 +50,7 @@
               id="descripcion"
               class="form-control"
               rows="10"
+              required
             ></textarea>
           <label
             for="filename"
@@ -94,7 +97,7 @@
               $fotos = $selectCxn->selectSQL($qry);
               foreach($fotos as $foto){
                 $ruta_web = substr($foto['ruta'],8,17);
-                $img = empty($foto['file_path'])? $foto['ruta']:$foto['file_path'];
+                $img = empty($foto['file_path']) ? $foto['ruta'] : $foto['file_path'];
                 print_r("
                   <tr class=''>
                     <td class='align-self-center ms-1'>$foto[nombre]</td>
@@ -110,7 +113,7 @@
                     </td>
                     <td class='ms-1'>
                       <img
-                        src='$foto[file_path]'
+                        src='$img'
                         alt='$foto[nombre]'
                         class='img-fluid img-thumbnail'
                         title='$foto[nombre]'
@@ -169,7 +172,9 @@
     //nuevo nombre de archivo a subir
     $nombre = $_POST['nombre'];
     $web_path = $_POST['web_path'];
-    $filename = 'images/'.$fecha->getTimestamp()."_".$_FILES['archivo']['name'];
+    !empty($_FILES['archivo']['name']) 
+      ? $filename = 'images/'.$fecha->getTimestamp()."_".$_FILES['archivo']['name'] 
+      : $filename = '';
     $tmp_name = $_FILES['archivo']['tmp_name'];
     $image_path = $tmp_name;
     $desc = $_POST['descripcion'];
@@ -197,6 +202,7 @@
       $cxnPortfolio->actionsSQL($qry);
       move_uploaded_file($image_path,$filename);
     }
+    header('location:portfolio.php');
   }
 
   if($_GET){
@@ -204,15 +210,19 @@
 
     if($_GET['del'] > 0){
       $deleteId = $_GET['del'];
-      $deleteImageFromServer = "Select file-path from fotos where id='$deleteId'";
+      $deleteImageFromServer = "Select file_path from fotos where id='$deleteId'";
       $qry ="Delete From `fotos` WHERE `fotos`.`id` = ".$deleteId.";";
+      $img = $cxnActions->selectSQL($deleteImageFromServer);
+      $imgDelete = $img[0]['file_path'];
+      !empty($img) 
+        ? unlink($imgDelete)
+        : null;
       $cxnActions->actionsSQL($qry);
-      unlink('images/'.$deleteImage);
     }else if($_GET['mod'] > 0){
       $updateId = $_GET['mod'];
-      echo '<div class="alert alert-danger" role="alert">deleteId = '.$deleteId.'   updateId = '.$updateId.'</div>';
+      print_r('<div class="alert alert-danger" role="alert">deleteId = '.$deleteId.'   updateId = '.$updateId.'</div>');
     }
-
+    header('location:portfolio.php');
   }
   ?>
   <?php include 'footer.php'; ?>
