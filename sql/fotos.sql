@@ -32,7 +32,7 @@ CREATE TABLE `fotos` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) DEFAULT NULL,
   `ruta` varchar(255) DEFAULT NULL,
-  `file-path` varchar(255) NOT NULL,
+  `file_path` varchar(255) NOT NULL,
   `descripcion` varchar(255) NOT NULL,
   `marca_borrado` char(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -40,19 +40,6 @@ CREATE TABLE `fotos` (
 --
 -- Volcado de datos para la tabla `fotos`
 --
-
-INSERT INTO `fotos` (`id`, `nombre`, `ruta`, `file-path`, `descripcion`, `marca_borrado`) VALUES
-(44, 'Capitana Marvel', 'https://www.peakpx.com/en/hd-wallpaper-desktop-nxmoz', 'capMarvel.jpg', 'Capitana Marbel Bri Larson          ', ''),
-(45, 'Capitana Marvel 2', 'https://www.peakpx.com/en/hd-wallpaper-desktop-nkfab', 'capMarvel2.jpg', 'Capitana Marvel 2 Karol Damvers', ''),
-(46, 'Jill Valantine', 'https://www.peakpx.com/en/hd-wallpaper-desktop-kswjy', 'jillValantine.jpg', 'Residen Evil          ', ''),
-(47, 'Lisamine Pokemon', 'https://www.peakpx.com/en/hd-wallpaper-desktop-kseia', 'lisamine.jpg', 'Lisamine Pokemon          ', ''),
-(48, 'Lady Bug', 'https://www.peakpx.com/en/hd-wallpaper-desktop-kdkup', 'ladybug.jpg', 'Lady bug Adolecente          ', ''),
-(49, 'Elastic Girl', 'https://www.peakpx.com/en/hd-wallpaper-desktop-kcdbh', 'elasticgirl.jpg', '          ', ''),
-(50, 'Uraraka', 'https://www.peakpx.com/en/hd-wallpaper-desktop-ksdmn', 'uraraka.jpg', 'Uraraka no se de donde          ', ''),
-(51, 'Dafne Scooby doo', 'https://www.peakpx.com/en/hd-wallpaper-desktop-kltui', 'dafne.jpg', 'Dafne Scooby doo', ''),
-(52, 'Alita', 'https://www.peakpx.com/en/hd-wallpaper-desktop-kcydh', 'alita.jpg', 'Alita battle angel          ', ''),
-(53, 'Tsuyu', 'https://www.peakpx.com/en/hd-wallpaper-desktop-kstjk', 'tsuyu.jpg', 'Tsuyu          ', ''),
-(54, 'Retadora', 'https://www.peakpx.com/en/hd-wallpaper-desktop-kcaws', 'retadora.jpg', 'Retadora          ', '');
 
 --
 -- Índices para tablas volcadas
